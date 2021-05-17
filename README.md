@@ -15,6 +15,6 @@
 - the Cogs in `./modules/` must be named like the file (the first character in uppercase!) + "Cog" to work
 ```
 e.g.
-file: "presence" -> cog_name: "PresenceCog"
+file: "presence.py" -> cog_name: "PresenceCog"
 ```
 - ...
