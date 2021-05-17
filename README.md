@@ -7,6 +7,14 @@
 
 
 ## Infos:
-
 - `TOKEN` in `CONFIGS.py` is stored by default in the environ variable `DISCORD_BOT_TOKEN` or in the file `./TOKEN`
+- ...
+
+
+## Convention:
+- the Cogs in `./modules/` must be named like the file (the first character in uppercase!) + "Cog" to work
+```
+e.g.
+file: "presence" -> cog_name: "PresenceCog"
+```
 - ...
