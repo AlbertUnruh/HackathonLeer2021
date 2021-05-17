@@ -8,5 +8,5 @@
 
 ## Infos:
 
-- `TOKEN` in `CONFIGS.py` is stored by default in the file `./TOKEN` but can be stored also in the environ variables
+- `TOKEN` in `CONFIGS.py` is stored by default in the environ variable `DISCORD_BOT_TOKEN` or in the file `./TOKEN`
 - ...
