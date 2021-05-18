@@ -1,8 +1,8 @@
-from discord.ext.commands import Bot, command, Cog
-from discord import Status, Activity
+from discord.ext.commands import Bot, Cog
+from discord import Activity
 
 
-PRESENCE = "to the winners :)"
+PRESENCE = Activity(type=2, name="den Hackathon")
 
 
 class PresenceCog(Cog, name="Presence"):
@@ -11,4 +11,4 @@ class PresenceCog(Cog, name="Presence"):
 
     @Cog.listener("on_ready")
     async def change_presence(self):
-        await self.bot.change_presence(activity=Activity(name=PRESENCE, type=2))
+        await self.bot.change_presence(activity=PRESENCE)
