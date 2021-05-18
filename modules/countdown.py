@@ -13,7 +13,8 @@ class CountdownCog(Cog, name="Countdown"):
     @Cog.listener("on_ready")
     async def countdown(self):
         # syncs on the `5th` minute
-        minute = datetime.utcnow().minute % 5 or 5  # to avoid `0` minutes
+        # this action can take up to 10 minutes to avoid rate-limiting
+        minute = datetime.utcnow().minute % 5 + 5
         await asleep((60*minute)-datetime.utcnow().second)
         del minute
 
