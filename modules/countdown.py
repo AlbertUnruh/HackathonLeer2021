@@ -68,7 +68,7 @@ class CountdownCog(Cog, name="Countdown"):
                     newest = (stamp, name)
                 elif newest[0] > stamp > datetime.utcnow():
                     newest = (stamp, name)
-        return newest
+        return newest if newest[0] is not None else (datetime.utcnow(), "...")
 
     @staticmethod
     def convert_stamp(stamp: datetime) -> str:
