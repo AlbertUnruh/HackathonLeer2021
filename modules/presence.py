@@ -2,7 +2,7 @@ from discord.ext.commands import Bot, Cog
 from discord import Activity
 
 
-PRESENCE = Activity(type=2, name="den Hackathon")
+PRESENCE = Activity(type=2, name="dem Hackathon")
 
 
 class PresenceCog(Cog, name="Presence"):
