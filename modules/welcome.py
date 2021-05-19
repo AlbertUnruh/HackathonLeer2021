@@ -35,7 +35,7 @@ class WelcomeCog(Cog, name="Welcome"):
     async def create_channel_welcome(self) -> TextChannel:
         """creates a new channel for welcome messages"""
         channel: TextChannel = await self.bot.guilds[0].create_text_channel(
-            name="wilkommen",
+            name="willkommen",
             overwrites={
                 self.bot.guilds[0].default_role: PermissionOverwrite(**{
                     "view_channel": True,
