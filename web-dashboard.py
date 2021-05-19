@@ -6,9 +6,9 @@ from discord.ext import ipc
 app = Quart(__name__, template_folder="templates", )
 ipc_client = ipc.Client(secret_key="bsbq9r5!31!g§VHa8§v926Syp066E?3#6o1&5§!8")
 
-app.config["DISCORD_CLIENT_ID"] = 843893717907406898
-app.config["DISCORD_CLIENT_SECRET"] = "G_Ga5HSCD_Cpr0Z9vQePvIB81ZhoIZ_-"
-app.config["DISCORD_BOT_TOKEN"] = "ODQzODkzNzE3OTA3NDA2ODk4.YKKfRQ.MHYJ9GK3uuDREXTEjtmabwRKHIs"     
+app.config["DISCORD_CLIENT_ID"] = 0
+app.config["DISCORD_CLIENT_SECRET"] = ""
+app.config["DISCORD_BOT_TOKEN"] = ""     
 app.config["DISCORD_REDIRECT_URL"] = ""
 
 discord = DiscordOAuth2Session(app)
