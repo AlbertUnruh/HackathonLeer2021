@@ -64,10 +64,19 @@ RedstoneCraft = Contributor(**{
 })
 
 
-def print_contributor():
+def print_contributor(bot):
     """prints all Contributors to the cmd"""
 
+    m = "  - {c.github:40}{c.name}"
+
+    all_contributors = set(Contributor.contributors)
+    listed_contributors = []
+
+    for cog in [bot.get_cog(c) for c in bot.cogs]:
+        for c in cog.contributor:
+            listed_contributors.append(c)
+
     print("Special thanks to our contributors:")
-    for contributor in Contributor.contributors:
-        print(f"  - {contributor.github:40}{contributor.name}")
-    print("\n")
+    print(f"\n".join(m.format(c=c) for c in sorted(all_contributors,
+                                                   key=listed_contributors.count,
+                                                   reverse=True)), end="\n\n")
