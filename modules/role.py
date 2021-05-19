@@ -61,4 +61,3 @@ class RoleCog(Cog, name="RoleManager"):
         await category.delete()
 
         await (get(self.bot.guilds[0].roles, name=category.name)).delete()
-
