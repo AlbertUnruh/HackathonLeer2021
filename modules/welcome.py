@@ -1,6 +1,9 @@
+"""contains the welcoming Cog"""
 from discord.ext.commands import Bot, Cog
-from discord import TextChannel, Member
+from discord import TextChannel, Member, PermissionOverwrite
+from json import load, dump
 from contributor import MikeCodes2586
+
 
 class WelcomeCog(Cog, name="Welcome"):
     """is a Cog for welcoming new users"""
@@ -14,12 +17,12 @@ class WelcomeCog(Cog, name="Welcome"):
     async def send_welcome_msg(self, member: Member):
         """Sends welcome messages on join event"""
         channel_id = self.get_channel_ids_json().get("WELCOME", None)
-            if channel_id is None:
+        if channel_id is None:
+            channel = await self.create_channel_welcome()
+        else:
+            channel: TextChannel = self.bot.guilds[0].get_channel(channel_id)
+            if channel is None:
                 channel = await self.create_channel_welcome()
-            else:
-                channel: TextChannel = self.bot.guilds[0].get_channel(channel_id)
-                if channel is None:
-                    channel = await self.create_channel_welcome()
 
         await channel.send(f'Wilkommen auf dem Server {member.mention}!')
 
@@ -46,4 +49,3 @@ class WelcomeCog(Cog, name="Welcome"):
             dump(data, f, indent=2)
 
         return channel
-
