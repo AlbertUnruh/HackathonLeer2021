@@ -17,5 +17,5 @@ intents = Intents.all()
 bot = Bot(PREFIX, None, intents=intents, case_insensitive=False)
 register_commands(bot)
 
-print_contributor()
+print_contributor(bot)
 bot.run(TOKEN)
