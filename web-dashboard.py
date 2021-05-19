@@ -2,14 +2,15 @@ from urllib.parse import urlencode
 from quart import Quart, render_template, request, session, redirect, url_for
 from quart_discord import DiscordOAuth2Session
 from discord.ext import ipc
+import WEBCONFIG
 ### from datenbank-utils import sqlite-kram
 app = Quart(__name__, template_folder="templates", )
-ipc_client = ipc.Client(secret_key="bsbq9r5!31!g§VHa8§v926Syp066E?3#6o1&5§!8")
+ipc_client = ipc.Client(secret_key=WEBCONFIG.SECRET_KEY)
 
-app.config["DISCORD_CLIENT_ID"] = 0
-app.config["DISCORD_CLIENT_SECRET"] = ""
-app.config["DISCORD_BOT_TOKEN"] = ""     
-app.config["DISCORD_REDIRECT_URL"] = ""
+app.config["DISCORD_CLIENT_ID"] = WEBCONFIG.DISCORD_CLIENT_ID
+app.config["DISCORD_CLIENT_SECRET"] = WEBCONFIG.DISCORD_CLIENT_SECRET
+app.config["DISCORD_BOT_TOKEN"] = WEBCONFIG.DISCORD_BOT_TOKEN 
+app.config["DISCORD_REDIRECT_URI"] = WEBCONFIG.DISCORD_CLIENT_ID
 
 discord = DiscordOAuth2Session(app)
 
