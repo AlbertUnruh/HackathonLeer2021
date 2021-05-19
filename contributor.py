@@ -47,7 +47,7 @@ AlbertUnruh = Contributor(**{
 
 Nxnx0502 = Contributor(**{
     "id": 752762890288758784,
-    "name": "꧁☆ℕ𝕩𝕟𝕩☆꧂#9288",
+    "name": "☆Nxnx☆#9288",
     "github": "https://github.com/Nxnx0502"
 })
 
