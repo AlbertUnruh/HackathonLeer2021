@@ -1,17 +1,24 @@
+"""contains the Cog for the countdown for the next upcoming events"""
 from discord.ext.commands import Bot, Cog
 from discord import VoiceChannel, TextChannel, PermissionOverwrite, Message
 from datetime import datetime, timedelta
 from asyncio import sleep as asleep
 from typing import Tuple, List, Optional
 from json import load, dump
+from contributor import AlbertUnruh
 
 
 class CountdownCog(Cog, name="Countdown"):
+    """is a Cog for the Countdown from the Bot"""
+
+    contributor = [AlbertUnruh]
+
     def __init__(self, bot: Bot):
         self.bot = bot
 
     @Cog.listener("on_ready")
     async def countdown(self):
+        """is the core of the countdown"""
         # syncs on the `5th` minute
         # this action can take up to 10 minutes to avoid rate-limiting
         minute = datetime.utcnow().minute % 5 + 5
@@ -126,5 +133,6 @@ ZEITSTEMPEL IM ISOFORMAT IN UTC
 
     @staticmethod
     def get_channel_ids_json() -> dict:
+        """returns the ids from the json-file"""
         with open("./CHANNEL_IDS.json") as f:
             return load(f)

@@ -1,14 +1,21 @@
-from discord.ext.commands import Bot, Cog, command
+"""contains the Cog for the GitHub connection"""
+from discord.ext.commands import Bot, Cog
 from discord import TextChannel, PermissionOverwrite, Embed
 from json import load, dump
+from contributor import AlbertUnruh
 
 
 class GithubCog(Cog, name="Github"):
+    """is a Cog for the GitHub connection"""
+
+    contributor = [AlbertUnruh]
+
     def __init__(self, bot: Bot):
         self.bot = bot
 
     @Cog.listener("on_ready")
     async def add(self):
+        """checks if a channel for GitHub exits, otherwise it 'll be created"""
         if "GITHUB" not in self.get_channel_ids_json():
             channel: TextChannel = await self.bot.guilds[0].create_text_channel(
                 name="github",
@@ -35,5 +42,6 @@ gelöscht werden, sobald alles fertig eingerichtet ist.)
 
     @staticmethod
     def get_channel_ids_json() -> dict:
+        """returns the ids from the json-file"""
         with open("./CHANNEL_IDS.json") as f:
             return load(f)
