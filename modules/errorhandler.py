@@ -43,4 +43,9 @@ class ErrorhandlerCog(Cog, name="Errorhandler"):
             return
 
         # raises the error
-        raise
+        try:
+            raise
+        except RuntimeError:
+            # seems that this handler is called every time
+            # and raises a RuntimeError
+            pass

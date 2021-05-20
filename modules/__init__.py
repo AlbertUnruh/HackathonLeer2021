@@ -5,8 +5,7 @@ from importlib import import_module
 from os import listdir
 
 
-blacklisted = ("__init__.py", "__pycache__")
-cogs = [c.split(".")[0] for c in listdir(__name__) if c not in blacklisted]
+cogs = [c.split(".")[0] for c in listdir(__name__) if not c.startswith("_")]
 
 
 def register_commands(bot: Bot) -> None:
