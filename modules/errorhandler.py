@@ -43,4 +43,4 @@ class ErrorhandlerCog(Cog, name="Errorhandler"):
             return
 
         # raises the error
-        raise error
+        raise

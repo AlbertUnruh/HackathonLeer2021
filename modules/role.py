@@ -9,6 +9,10 @@ from contributor import MikeCodes2586
 class RoleCog(Cog, name="RoleManager"):
     """is a cog with funtions for creating, deleting and destributing roles"""
 
+    # TODO: @make_team @remove_team @give_role
+    # add perm check
+    # add account check
+
     contributor = [MikeCodes2586]
 
     def __init__(self, bot: Bot):
@@ -20,7 +24,7 @@ class RoleCog(Cog, name="RoleManager"):
         team_name = " ".join(name)
         team_role: Role = await self.bot.guilds[0].create_role(name=team_name)
 
-        self.bot.guilds[0].getMember(ctx.author.id).addRoles(team_role.id)
+        await self.bot.guilds[0].get_member(ctx.author.id).add_roles(team_role)
 
         t_cat_overwrites = {
             self.bot.guilds[0].default_role: PermissionOverwrite(**{
@@ -56,8 +60,17 @@ class RoleCog(Cog, name="RoleManager"):
         if category is None:
             return
 
+        await (get(self.bot.guilds[0].roles, name=category.name)).delete()
+
         for channel in category.channels:
             await channel.delete()
         await category.delete()
 
-        await (get(self.bot.guilds[0].roles, name=category.name)).delete()
+    @command(name="give_role")
+    async def give_author_role(self, ctx: Context,
+                              role: Optional[Role] = None):
+        """gives the author the selected role"""
+
+        # role = get(self.bot.guilds[0].roles, name=category.name)
+        await self.bot.guilds[0].get_member(ctx.author.id).add_roles(role)
+
