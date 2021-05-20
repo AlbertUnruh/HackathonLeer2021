@@ -21,6 +21,10 @@ class RoleCog(Cog, name="RoleManager"):
     @command(name="make_team")
     async def create_team(self, ctx: Context, *name: str):
         """creates a role, category, a text and a voice channel for a team and gives the author the role"""
+        if not ctx.author.guild_permissions.manage_roles:
+            ctx.channel.send("Du hast nicht genug ")
+            return
+
         team_name = " ".join(name)
         team_role: Role = await self.bot.guilds[0].create_role(name=team_name)
 
@@ -71,6 +75,5 @@ class RoleCog(Cog, name="RoleManager"):
                               role: Optional[Role] = None):
         """gives the author the selected role"""
 
-        # role = get(self.bot.guilds[0].roles, name=category.name)
         await self.bot.guilds[0].get_member(ctx.author.id).add_roles(role)
 
