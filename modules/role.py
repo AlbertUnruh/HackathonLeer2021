@@ -22,7 +22,7 @@ class RoleCog(Cog, name="RoleManager"):
     async def create_team(self, ctx: Context, *name: str):
         """creates a role, category, a text and a voice channel for a team and gives the author the role"""
         if not ctx.author.guild_permissions.manage_roles:
-            ctx.channel.send("Du hast nicht genug ")
+            await ctx.channel.send("Du hast nicht genug perms!")
             return
 
         team_name = " ".join(name)
