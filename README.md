@@ -19,3 +19,4 @@ file: "presence.py" -> cog_name: "PresenceCog"
 ```
 - every Cog must have the attribute `contributor`, which is a List of Contributor which has worked on the Cog
 - ...
+Nxnx was here
