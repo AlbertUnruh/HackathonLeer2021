@@ -14,6 +14,8 @@ app.config["DISCORD_REDIRECT_URI"] = WEBCONFIG.DISCORD_CLIENT_ID
 
 discord = DiscordOAuth2Session(app)
 
+#################### DASHBOARD ####################
+
 @app.route("/")
 async def home():
     await render_template("index.html")
@@ -32,4 +34,13 @@ async def dashboard():
     user_name = ipc_client.request("get_display_name_by_id", user_id=user["user_id"])
     #anmeldungs_formular = sqlite utils get_anmeldungen()
     
-    
+#################### API ####################
+
+@app.route("/api/anmeldungen/")
+async def api_anmeldungen():
+    #anmeldungs_formular = sqlite utils get_anmeldungen()
+    return anmeldungs_formular
+
+@app.route("/api/termine/")
+async def api_termine():
+    #### albert machen weil discord bot login
