@@ -20,7 +20,7 @@ class RoleCog(Cog, name="RoleManager"):
         team_name = " ".join(name)
         team_role: Role = await self.bot.guilds[0].create_role(name=team_name)
 
-        self.bot.guilds[0].getMember(ctx.author.id).addRoles(team_role.id)
+        await self.bot.guilds[0].get_member(ctx.author.id).add_roles(team_role)
 
         t_cat_overwrites = {
             self.bot.guilds[0].default_role: PermissionOverwrite(**{
@@ -56,8 +56,10 @@ class RoleCog(Cog, name="RoleManager"):
         if category is None:
             return
 
+        await (get(self.bot.guilds[0].roles, name=category.name)).delete()
+
         for channel in category.channels:
             await channel.delete()
         await category.delete()
 
-        await (get(self.bot.guilds[0].roles, name=category.name)).delete()
+
