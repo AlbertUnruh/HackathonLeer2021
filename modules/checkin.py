@@ -87,6 +87,11 @@ _Wenn die stimmen, drücke _\\{YES}_, ansonsten _\\{NO}_._
         if len(reaction.message.embeds) != 1:
             return
 
+        # if the user cancels the check in
+        if reaction.emoji == NO:
+            await reaction.message.delete()
+            return
+
         embed: Embed = reaction.message.embeds[0]
 
         # if the title is invalid
