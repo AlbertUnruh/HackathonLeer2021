@@ -1,4 +1,6 @@
 """Here are all Contributor listed"""
+from colorama import Fore as Fg, Style
+
 
 __all__ = (
     "print_contributor",
@@ -67,7 +69,8 @@ RedstoneCraft = Contributor(**{
 def print_contributor(bot):
     """prints all Contributors to the cmd"""
 
-    m = "  - {c.github:40}{c.name}"
+    p = Fg.CYAN+Style.BRIGHT+"  -"+Style.RESET_ALL
+    m = p+Fg.CYAN+" {c.github:40}{c.name}"+Style.RESET_ALL
 
     all_contributors = set(Contributor.contributors)
     listed_contributors = []
@@ -76,7 +79,7 @@ def print_contributor(bot):
         for c in cog.contributor:
             listed_contributors.append(c)
 
-    print("Special thanks to our contributors:")
+    print(Fg.BLUE+Style.BRIGHT+"Special thanks to our contributors:"+Style.RESET_ALL)
     print(f"\n".join(m.format(c=c) for c in sorted(all_contributors,
                                                    key=listed_contributors.count,
                                                    reverse=True)), end="\n\n")
