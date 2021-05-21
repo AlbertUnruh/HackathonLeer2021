@@ -1,4 +1,3 @@
-from urllib.parse import urlencode
 from quart import Quart, render_template, request, session, redirect, url_for
 from quart_discord import DiscordOAuth2Session
 from discord.ext import ipc
@@ -43,4 +42,5 @@ async def api_anmeldungen():
 
 @app.route("/api/termine/")
 async def api_termine():
-    #### albert machen weil discord bot login
+    ##### albert hier termine auslesen discord channel
+    return termine
