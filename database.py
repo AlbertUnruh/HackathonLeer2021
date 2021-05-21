@@ -40,9 +40,14 @@ class DataBase:
 
     def get_all(self, table, **query):
         """fetches all entries from a table with the given query"""
-        name, query = query.popitem()
-        self._cursor.execute(f"""
+        if query:
+            name, query = query.popitem()
+            self._cursor.execute(f"""
 SELECT * FROM {table} WHERE {name}=={query!r}
+""")
+        else:
+            self._cursor.execute(f"""
+SELECT * FROM {table}
 """)
         return self._cursor.fetchall()
 
@@ -87,6 +92,12 @@ INSERT INTO {TABLE_USER!r} VALUES (
         assert len(query.items()) == 1, "Please insert only ONE query!"
         with DataBase() as db:
             return db.get_all(TABLE_USER, **query)
+
+    @staticmethod
+    def get_all_users() -> list:
+        """gets users by the query"""
+        with DataBase() as db:
+            return db.get_all(TABLE_USER)
 
     with DataBase() as db:
         db.execute(f"""\
