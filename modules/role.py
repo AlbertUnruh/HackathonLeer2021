@@ -9,7 +9,7 @@ from CONFIGS import PREFIX
 class RoleCog(Cog, name="RoleManager"):
     """is a cog with funtions for creating, deleting and destributing roles"""
 
-    # TODO: @make_team @remove_team @give_role
+    # TODO: @give_role
     # add account check
 
     contributor = [MikeCodes2586]
