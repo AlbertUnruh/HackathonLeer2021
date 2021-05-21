@@ -4,13 +4,12 @@ from discord import Role, CategoryChannel, PermissionOverwrite
 from discord.utils import get
 from typing import Optional
 from contributor import MikeCodes2586
-
+from CONFIGS import PREFIX
 
 class RoleCog(Cog, name="RoleManager"):
     """is a cog with funtions for creating, deleting and destributing roles"""
 
     # TODO: @make_team @remove_team @give_role
-    # add perm check
     # add account check
 
     contributor = [MikeCodes2586]
@@ -62,6 +61,11 @@ class RoleCog(Cog, name="RoleManager"):
                           category: Optional[CategoryChannel] = None):
         """deletes a category with the channels inside"""
         if category is None:
+            await ctx.channel.send(f"Bitte gebe einen richtigen Teamnamen an! \nAchte auf Großschreibung \nNutzung: `{PREFIX}remove_team [dein team name]`")
+            return
+
+        if not ctx.author.guild_permissions.manage_roles:
+            await ctx.channel.send("Du hast nicht genug perms!")
             return
 
         await (get(self.bot.guilds[0].roles, name=category.name)).delete()
@@ -74,6 +78,10 @@ class RoleCog(Cog, name="RoleManager"):
     async def give_author_role(self, ctx: Context,
                               role: Optional[Role] = None):
         """gives the author the selected role"""
+
+        if not ctx.author.guild_permissions.manage_roles:
+            await ctx.channel.send("Du hast nicht genug perms!")
+            return
 
         await self.bot.guilds[0].get_member(ctx.author.id).add_roles(role)
 
