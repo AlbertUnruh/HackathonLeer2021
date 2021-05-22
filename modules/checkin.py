@@ -3,6 +3,8 @@ from discord.ext.commands import Bot, Cog, command, Context, CommandError
 from discord import Embed, Reaction, User, DMChannel
 from contributor import AlbertUnruh
 from re import compile
+from database import User as DbUser
+from colorama import Fore as Fg, Style
 
 
 VALID_MAIL = compile(r"(^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
@@ -101,4 +103,15 @@ _Wenn die stimmen, drücke _\\{YES}_, ansonsten _\\{NO}_._
         attrs = {}
         for field in embed.fields:
             attrs[field.name] = field.value
-        print(attrs)
+
+        user_data = {
+            "id": user.id,
+            "user": user.name,
+            "mail": attrs.get(EMAIL),
+            "name": attrs.get(NAME),
+            "school": attrs.get(SCHOOL),
+            "cl4ss": attrs.get(CLASS),
+            "team": attrs.get(TEAM)
+        }
+        DbUser.new_user(**user_data)
+        print(Fg.MAGENTA+f"Added new user to the DB! {user_data}"+Style.RESET_ALL)
