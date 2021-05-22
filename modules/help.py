@@ -11,7 +11,7 @@ class HelpCog(Cog, name="Help"):
     @command(name="help", aliases=["Help"])
     async def helpcommand(self, ctx: Context):
         embed: Embed = Embed(color=0x5865F2, title="Hilfe")
-        embed.add_field(name= "Suche", value= "Du brauchst Hilfe? Dann wähle eine Suchmaschine aus: \n> s \n> ddg \n>g", inline= True)
+        embed.add_field(name= "Suche", value= "Du brauchst Hilfe? Dann wähle eine Suchmaschine aus: \n> ddg | duckduckgo | browse | search | s \n> gh | github \n>g | google \n> sof | stackoverflow \n> ecosia \n> bing", inline= True)
         embed.add_field(name= "Teams", value= "So erstellst du ein Team: \n> make_team Teamname(Leerzeichen möglich)", inline= True)
 
         await ctx.channel.send(embed=embed)
