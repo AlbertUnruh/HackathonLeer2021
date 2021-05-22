@@ -74,7 +74,7 @@ class RoleCog(Cog, name="RoleManager"):
             await channel.delete()
         await category.delete()
 
-    @command(name="give_role")
+    @command(name="join_team")
     async def give_author_role(self, ctx: Context,
                               role: Optional[Role] = None):
         """gives the author the selected role"""
@@ -84,4 +84,15 @@ class RoleCog(Cog, name="RoleManager"):
             return
 
         await self.bot.guilds[0].get_member(ctx.author.id).add_roles(role)
+
+    @command(name="exit_team")
+    async def give_author_role(self, ctx: Context,
+                              role: Optional[Role] = None):
+        """gives the author the selected role"""
+
+        if not ctx.author.guild_permissions.manage_roles:
+            await ctx.channel.send("Du hast nicht genug perms!")
+            return
+
+        await self.bot.guilds[0].get_member(ctx.author.id).remove_roles(role)
 
