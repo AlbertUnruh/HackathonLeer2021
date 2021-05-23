@@ -75,8 +75,7 @@ class RoleCog(Cog, name="RoleManager"):
         await category.delete()
 
     @command(name="join_team")
-    async def give_author_role(self, ctx: Context,
-                              role: Optional[Role] = None):
+    async def give_author_role(self, ctx: Context, role: Optional[Role] = None):
         """gives the author the selected role"""
 
         if not ctx.author.guild_permissions.manage_roles:
@@ -85,8 +84,15 @@ class RoleCog(Cog, name="RoleManager"):
 
         await self.bot.guilds[0].get_member(ctx.author.id).add_roles(role)
 
+        if role in ctx.author.roles:
+            await ctx.channel.send("Es hat funtioniert!")
+        elif role not in ctx.author.roles:
+            await ctx.channel.send("Etwas ist falsch gelaufen und du hast die Rolle nicht bekommen. \nVersuchs nochmal!")
+        else:
+            await ctx.channel.send("Irgendwas ist seehr falsch gelaufen. Bitte kontaktiere einen Dev.")
+
     @command(name="exit_team")
-    async def give_author_role(self, ctx: Context,
+    async def remove_author_role(self, ctx: Context,
                               role: Optional[Role] = None):
         """gives the author the selected role"""
 
@@ -95,4 +101,11 @@ class RoleCog(Cog, name="RoleManager"):
             return
 
         await self.bot.guilds[0].get_member(ctx.author.id).remove_roles(role)
+
+        if role not in ctx.author.roles:
+            await ctx.channel.send("Es hat funtioniert!")
+        elif role in ctx.author.roles:
+            await ctx.channel.send("Etwas ist falsch gelaufen und du hast die Rolle immer noch. \nVersuchs nochmal!")
+        else:
+            await ctx.channel.send("Irgendwas ist seehr falsch gelaufen. Bitte kontaktiere einen Dev.")
 
