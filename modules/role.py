@@ -5,6 +5,7 @@ from discord.utils import get
 from typing import Optional
 from contributor import MikeCodes2586
 from CONFIGS import PREFIX
+from database import User
 
 class RoleCog(Cog, name="RoleManager"):
     """is a cog with funtions for creating, deleting and destributing roles"""
@@ -108,4 +109,17 @@ class RoleCog(Cog, name="RoleManager"):
             await ctx.channel.send("Etwas ist falsch gelaufen und du hast die Rolle immer noch. \nVersuchs nochmal!")
         else:
             await ctx.channel.send("Irgendwas ist seehr falsch gelaufen. Bitte kontaktiere einen Dev.")
+
+    @command(name="check_team")
+    async def check_for_team_in_DB(self, ctx: Context,
+                                  *name: str):
+        """checks if the given role is in the database"""
+
+        team_name = " ".join(name)
+        team = User.get_users(team=team_name)
+
+        if not team:
+            await ctx.channel.send(f"Das Team gibt es nicht (achte auf Großschreibung). \nDu kannst ein Team mit `PREFIX + make_team mein teamname`(Leerzeichen möglich) erstellen wenn du die `manage_roles` permission hast.")
+            return
+        await ctx.channel.send(f"Das Team existiert und hat {len(team)} Mitglieder")
 
