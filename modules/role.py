@@ -5,11 +5,12 @@ from discord.utils import get
 from typing import Optional
 from contributor import MikeCodes2586
 from CONFIGS import PREFIX
+from database import User
 
 class RoleCog(Cog, name="RoleManager"):
     """is a cog with funtions for creating, deleting and destributing roles"""
 
-    # TODO: @make_team @remove_team @give_role
+    # TODO: @give_role
     # add account check
 
     contributor = [MikeCodes2586]
@@ -74,9 +75,8 @@ class RoleCog(Cog, name="RoleManager"):
             await channel.delete()
         await category.delete()
 
-    @command(name="give_role")
-    async def give_author_role(self, ctx: Context,
-                              role: Optional[Role] = None):
+    @command(name="join_team")
+    async def give_author_role(self, ctx: Context, role: Optional[Role] = None):
         """gives the author the selected role"""
 
         if not ctx.author.guild_permissions.manage_roles:
@@ -84,4 +84,42 @@ class RoleCog(Cog, name="RoleManager"):
             return
 
         await self.bot.guilds[0].get_member(ctx.author.id).add_roles(role)
+
+        if role in ctx.author.roles:
+            await ctx.channel.send("Es hat funtioniert!")
+        elif role not in ctx.author.roles:
+            await ctx.channel.send("Etwas ist falsch gelaufen und du hast die Rolle nicht bekommen. \nVersuchs nochmal!")
+        else:
+            await ctx.channel.send("Irgendwas ist seehr falsch gelaufen. Bitte kontaktiere einen Dev.")
+
+    @command(name="exit_team")
+    async def remove_author_role(self, ctx: Context,
+                              role: Optional[Role] = None):
+        """gives the author the selected role"""
+
+        if not ctx.author.guild_permissions.manage_roles:
+            await ctx.channel.send("Du hast nicht genug perms!")
+            return
+
+        await self.bot.guilds[0].get_member(ctx.author.id).remove_roles(role)
+
+        if role not in ctx.author.roles:
+            await ctx.channel.send("Es hat funtioniert!")
+        elif role in ctx.author.roles:
+            await ctx.channel.send("Etwas ist falsch gelaufen und du hast die Rolle immer noch. \nVersuchs nochmal!")
+        else:
+            await ctx.channel.send("Irgendwas ist seehr falsch gelaufen. Bitte kontaktiere einen Dev.")
+
+    @command(name="check_team")
+    async def check_for_team_in_DB(self, ctx: Context,
+                                  *name: str):
+        """checks if the given role is in the database"""
+
+        team_name = " ".join(name)
+        team = User.get_users(team=team_name)
+
+        if not team:
+            await ctx.channel.send(f"Das Team gibt es nicht (achte auf Großschreibung). \nDu kannst ein Team mit `PREFIX + make_team mein teamname`(Leerzeichen möglich) erstellen wenn du die `manage_roles` permission hast.")
+            return
+        await ctx.channel.send(f"Das Team existiert und hat {len(team)} Mitglieder")
 
