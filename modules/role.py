@@ -121,6 +121,13 @@ class RoleCog(Cog, name="RoleManager"):
                                  role: Optional[Role] = None):
         """gives the author the selected role"""
 
+        if role is None:
+            embed: Embed = Embed(color=0x5865F2, title="Fehler")
+            embed.add_field(name= "Kein Argument",
+                            value= "Du hast kein Team angegeben")
+            await ctx.channel.send(embed=embed)
+            return
+
         await self.bot.guilds[0].get_member(ctx.author.id).remove_roles(role)
 
         if role not in ctx.author.roles:
