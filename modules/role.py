@@ -123,8 +123,8 @@ class RoleCog(Cog, name="RoleManager"):
 
         if role is None:
             embed: Embed = Embed(color=0x5865F2, title="Fehler")
-            embed.add_field(name= "Kein Argument",
-                            value= "Du hast kein Team angegeben")
+            embed.add_field(name="Kein Argument",
+                            value="Du hast kein (gültiges) Team angegeben")
             await ctx.channel.send(embed=embed)
             return
 
