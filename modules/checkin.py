@@ -7,7 +7,7 @@ from database import User as DbUser
 from colorama import Fore as Fg, Style
 
 
-VALID_CHARS = compile(r"[a-zA-Z0-9_.+\- ]")
+VALID_CHARS = compile(r"[a-zA-Z0-9_.+\- @äöü]")
 VALID_MAIL = compile(r"(^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 TITLE = "__**Anmeldung\u200B:**__"
 YES, NO = "✅", "❌"
