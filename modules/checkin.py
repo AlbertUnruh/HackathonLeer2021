@@ -7,6 +7,7 @@ from database import User as DbUser
 from colorama import Fore as Fg, Style
 
 
+VALID_CHARS = compile(r"[a-zA-Z0-9_.+\- ]")
 VALID_MAIL = compile(r"(^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 TITLE = "__**Anmeldung\u200B:**__"
 YES, NO = "✅", "❌"
@@ -16,6 +17,11 @@ NAME = "Name"
 SCHOOL = "Schule"
 CLASS = "Klasse"
 TEAM = "Team"
+
+
+def escape_input(string: str) -> str:
+    """escapes user input to prevent SQL-injections"""
+    return "".join(VALID_CHARS.findall(string))
 
 
 async def check_in_error(self, ctx: Context, error: CommandError):
@@ -57,11 +63,11 @@ class CheckinCog(Cog, name="Checkin"):
 Bitte gehe sicher, dass alle Angaben korrekt sind.
 _Wenn die stimmen, drücke _\\{YES}_, ansonsten _\\{NO}_._
 """)
-        embed.add_field(name=EMAIL, value=mail)
-        embed.add_field(name=NAME, value=name)
-        embed.add_field(name=SCHOOL, value=school)
-        embed.add_field(name=CLASS, value=cl4ss)
-        embed.add_field(name=TEAM, value=team)
+        embed.add_field(name=EMAIL, value=escape_input(mail))
+        embed.add_field(name=NAME, value=escape_input(name))
+        embed.add_field(name=SCHOOL, value=escape_input(school))
+        embed.add_field(name=CLASS, value=escape_input(cl4ss))
+        embed.add_field(name=TEAM, value=escape_input(team))
 
         msg = await ctx.send(embed=embed)
         await msg.add_reaction(YES)
