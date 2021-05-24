@@ -1,6 +1,6 @@
 """contains cog for role functions"""
 from discord.ext.commands import Bot, Cog, Context, command
-from discord import Role, CategoryChannel, PermissionOverwrite
+from discord import Role, CategoryChannel, PermissionOverwrite, Embed
 from discord.utils import get
 from typing import Optional
 from contributor import MikeCodes2586
@@ -10,7 +10,7 @@ from database import User
 class RoleCog(Cog, name="RoleManager"):
     """is a cog with funtions for creating, deleting and destributing roles"""
 
-    # TODO: @give_role
+    # TODO: @join_team @exit_team @make_team @remove_team
     # add account check
 
     contributor = [MikeCodes2586]
@@ -21,8 +21,12 @@ class RoleCog(Cog, name="RoleManager"):
     @command(name="make_team")
     async def create_team(self, ctx: Context, *name: str):
         """creates a role, category, a text and a voice channel for a team and gives the author the role"""
-        if not ctx.author.guild_permissions.manage_roles:
-            await ctx.channel.send("Du hast nicht genug perms!")
+
+        user = User.get_users(id=ctx.author.id)[0]
+        if user[6] != name:
+            embed: Embed = Embed(color=0x5865F2, title="Fehler")
+            embed.add_field(name= "Nicht in Team", value= "Melde dich in einem DM-Channel mit `HackathonLeer2021#3139` mit `PREFIX + anmelden` an")
+            await ctx.channel.send(embed=embed)
             return
 
         team_name = " ".join(name)
@@ -62,7 +66,14 @@ class RoleCog(Cog, name="RoleManager"):
                           category: Optional[CategoryChannel] = None):
         """deletes a category with the channels inside"""
         if category is None:
-            await ctx.channel.send(f"Bitte gebe einen richtigen Teamnamen an! \nAchte auf Großschreibung \nNutzung: `{PREFIX}remove_team [dein team name]`")
+            await ctx.channel.send(f"Bitte gebe einen richtigen Teamnamen an! \nAchte auf Großschreibung \nNutzung: `{PREFIX}remove_team [dein team name]` (in \" \" wenn er Leerzeichen hat)")
+            return
+
+        user = User.get_users(id=ctx.author.id)[0]
+        if user[6] != name:
+            embed: Embed = Embed(color=0x5865F2, title="Fehler")
+            embed.add_field(name= "Nicht in Team", value= "Melde dich in einem DM-Channel mit `HackathonLeer2021#3139` mit `PREFIX + anmelden` an")
+            await ctx.channel.send(embed=embed)
             return
 
         if not ctx.author.guild_permissions.manage_roles:
@@ -79,8 +90,11 @@ class RoleCog(Cog, name="RoleManager"):
     async def give_author_role(self, ctx: Context, role: Optional[Role] = None):
         """gives the author the selected role"""
 
-        if not ctx.author.guild_permissions.manage_roles:
-            await ctx.channel.send("Du hast nicht genug perms!")
+        user = User.get_users(id=ctx.author.id)[0]
+        if user[6] != name:
+            embed: Embed = Embed(color=0x5865F2, title="Fehler")
+            embed.add_field(name= "Nicht in Team", value= "Melde dich in einem DM-Channel mit `HackathonLeer2021#3139` mit `PREFIX + anmelden` an")
+            await ctx.channel.send(embed=embed)
             return
 
         await self.bot.guilds[0].get_member(ctx.author.id).add_roles(role)
@@ -97,10 +111,6 @@ class RoleCog(Cog, name="RoleManager"):
                               role: Optional[Role] = None):
         """gives the author the selected role"""
 
-        if not ctx.author.guild_permissions.manage_roles:
-            await ctx.channel.send("Du hast nicht genug perms!")
-            return
-
         await self.bot.guilds[0].get_member(ctx.author.id).remove_roles(role)
 
         if role not in ctx.author.roles:
@@ -113,7 +123,7 @@ class RoleCog(Cog, name="RoleManager"):
     @command(name="check_team")
     async def check_for_team_in_DB(self, ctx: Context,
                                   *name: str):
-        """checks if the given role is in the database"""
+        """checks if the given team is in the database"""
 
         team_name = " ".join(name)
         team = User.get_users(team=team_name)
