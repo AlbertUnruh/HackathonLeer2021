@@ -10,9 +10,6 @@ from database import User
 class RoleCog(Cog, name="RoleManager"):
     """is a cog with funtions for creating, deleting and destributing roles"""
 
-    # TODO: @join_team @exit_team @make_team @remove_team
-    # add account check
-
     contributor = [MikeCodes2586]
 
     def __init__(self, bot: Bot):
@@ -22,14 +19,14 @@ class RoleCog(Cog, name="RoleManager"):
     async def create_team(self, ctx: Context, *name: str):
         """creates a role, category, a text and a voice channel for a team and gives the author the role"""
 
+        team_name = " ".join(name)
         user = User.get_users(id=ctx.author.id)[0]
-        if user[6] != name:
+        if user[6] != team_name:
             embed: Embed = Embed(color=0x5865F2, title="Fehler")
-            embed.add_field(name= "Nicht in Team", value= "Melde dich in einem DM-Channel mit `HackathonLeer2021#3139` mit `PREFIX + anmelden` an")
+            embed.add_field(name= "Nicht in Team", value= f"Melde dich in einem DM-Channel mit `{self.bot.user}` mit `{PREFIX}anmelden` an")
             await ctx.channel.send(embed=embed)
             return
 
-        team_name = " ".join(name)
         team_role: Role = await self.bot.guilds[0].create_role(name=team_name)
 
         await self.bot.guilds[0].get_member(ctx.author.id).add_roles(team_role)
@@ -70,9 +67,9 @@ class RoleCog(Cog, name="RoleManager"):
             return
 
         user = User.get_users(id=ctx.author.id)[0]
-        if user[6] != name:
+        if user[6] != category.name:
             embed: Embed = Embed(color=0x5865F2, title="Fehler")
-            embed.add_field(name= "Nicht in Team", value= "Melde dich in einem DM-Channel mit `HackathonLeer2021#3139` mit `PREFIX + anmelden` an")
+            embed.add_field(name= "Nicht in Team", value= f"Melde dich in einem DM-Channel mit `{self.bot.user}` mit `{PREFIX}anmelden` an")
             await ctx.channel.send(embed=embed)
             return
 
@@ -91,9 +88,9 @@ class RoleCog(Cog, name="RoleManager"):
         """gives the author the selected role"""
 
         user = User.get_users(id=ctx.author.id)[0]
-        if user[6] != name:
+        if user[6] != role.name:
             embed: Embed = Embed(color=0x5865F2, title="Fehler")
-            embed.add_field(name= "Nicht in Team", value= "Melde dich in einem DM-Channel mit `HackathonLeer2021#3139` mit `PREFIX + anmelden` an")
+            embed.add_field(name= "Nicht in Team", value= f"Melde dich in einem DM-Channel mit `{self.bot.user}` mit `{PREFIX}anmelden` an")
             await ctx.channel.send(embed=embed)
             return
 
@@ -129,7 +126,7 @@ class RoleCog(Cog, name="RoleManager"):
         team = User.get_users(team=team_name)
 
         if not team:
-            await ctx.channel.send(f"Das Team gibt es nicht (achte auf Großschreibung). \nDu kannst ein Team mit `PREFIX + make_team mein teamname`(Leerzeichen möglich) erstellen wenn du die `manage_roles` permission hast.")
+            await ctx.channel.send(f"Das Team gibt es nicht (achte auf Großschreibung). \nDu kannst ein Team mit `{PREFIX}make_team mein teamname`(Leerzeichen möglich) erstellen wenn du die `manage_roles` permission hast.")
             return
         await ctx.channel.send(f"Das Team existiert und hat {len(team)} Mitglieder")
 
