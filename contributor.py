@@ -1,9 +1,11 @@
 """Here are all Contributor listed"""
 from colorama import Fore as Fg, Style
+from typing import List
 
 
 __all__ = (
     "print_contributor",
+    "sorted_contributors",
     "AlbertUnruh",
     "Nxnx0502",
     "MikeCodes2586",
@@ -72,6 +74,13 @@ def print_contributor(bot):
     p = Fg.CYAN+Style.BRIGHT+"  -"+Style.RESET_ALL
     m = p+Fg.CYAN+" {c.github:40}{c.name}"+Style.RESET_ALL
 
+    print(Fg.BLUE+Style.BRIGHT+"Special thanks to our contributors:"+Style.RESET_ALL)
+    print(f"\n".join(m.format(c=c) for c in sorted_contributors(bot)), end="\n\n")
+
+
+def sorted_contributors(bot) -> List[Contributor]:
+    """returns the contributors from the Cogs in sorted order"""
+
     all_contributors = set(Contributor.contributors)
     listed_contributors = []
 
@@ -79,7 +88,4 @@ def print_contributor(bot):
         for c in cog.contributor:
             listed_contributors.append(c)
 
-    print(Fg.BLUE+Style.BRIGHT+"Special thanks to our contributors:"+Style.RESET_ALL)
-    print(f"\n".join(m.format(c=c) for c in sorted(all_contributors,
-                                                   key=listed_contributors.count,
-                                                   reverse=True)), end="\n\n")
+    return sorted(all_contributors, key=listed_contributors.count, reverse=True)
