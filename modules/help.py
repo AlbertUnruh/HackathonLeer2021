@@ -41,7 +41,7 @@ Wenn es dein Team schon gibt kannst du so joinen:
 Dein Team nervt? Dann verlasse dein Team einfach:
 > exit_team Teamname""")
 
-        embed.add_field(name="Anmelden", value="""
+        embed.add_field(name="Anmelden", value="""\
 Um dich anzumelden schreibe dem Bot im Privatchat:
 > anmelden "E-Mail" "Name" "Schule" "Klasse" "Teamname" """, inline=False)
 
@@ -49,7 +49,7 @@ Um dich anzumelden schreibe dem Bot im Privatchat:
 Hier sind die Latenzen zusehen:
 > :ping_pong:""")
 
-        embed.add_field(name="Mitwirkende", value="""
+        embed.add_field(name="Mitwirkende", value="""\
 Du willst wissen wer bei diesem Bot Mist gebaut hat? So kriegst du die Namen für die Beschwerde raus:
 > contributer""")
 
