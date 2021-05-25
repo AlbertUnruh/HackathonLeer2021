@@ -21,6 +21,6 @@ class ContributorCog(Cog, name="Contributor"):
         for contributor in sorted_contributors(self.bot):
             embed.add_field(name=f"__{contributor.name}__",
                             value=f"> <@{contributor.id}>\n"
-                                  f"> [GitHub]({contributor.github} \"Hier geht es zu GitHub\")")
+                                  f"> [GitHub]({contributor.github} \"{contributor.github}\")")
 
         await ctx.send(embed=embed)
