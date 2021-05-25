@@ -14,7 +14,7 @@ class HelpCog(Cog, name="Help"):
         embed.add_field(name= "Suche", value= "Du brauchst Hilfe? Dann wähle eine Suchmaschine aus: \n> -ddg | duckduckgo | browse | search | s \n> -gh | github \n> -g | google \n> -sof | stackoverflow \n> -ecosia \n> -bing", inline=True)
         embed.add_field(name= "Teams", value= "So erstellst du ein neues Team: \n> make_team Teamname \n> (Der Teamname darf auch Leerzeichen enthalten) \n \n So löscht du ein Team: \n> remove_team Teamname \n \n Wenn es dein Team schon gibt kannst du so joinen: \n> join_team Teamname \n \n Dein Team nervt? Dann verlasse dein Team einfach: \n> exit_team Teamname", inline=True)
         embed.add_field(name= "Anmelden", value= 'Um dich anzumelden schreibe dem Bot im Privatchat: \n> anmelden "E-Mail" "Name" "Schule" "Klasse" "Teamname"', inline=False)
-
+        embed.add_field(name= "Latenz", value= "Hier sind die Latenzen zusehen: \n> :ping_pong:", inline=True)
 
 
         await ctx.channel.send(embed=embed)
