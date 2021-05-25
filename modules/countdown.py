@@ -3,7 +3,7 @@ from discord.ext.commands import Bot, Cog
 from discord import VoiceChannel, TextChannel, PermissionOverwrite, Message
 from datetime import datetime, timedelta
 from asyncio import sleep as asleep
-from typing import Tuple, List, Optional
+from typing import Tuple, List
 from json import load, dump
 from contributor import AlbertUnruh
 
@@ -48,6 +48,17 @@ class CountdownCog(Cog, name="Countdown"):
 
     async def next_timestamp(self) -> Tuple[datetime, str]:
         """gets the next timestamp for the countdown"""
+        for stamp, name in await self.get_timestamps():
+            if stamp > datetime.utcnow():
+                return stamp, name
+        return datetime.utcnow(), "..."
+
+    async def get_timestamps(self) -> List[Tuple[datetime, str]]:
+        """gets all timestamps in the channel
+
+        ..note::
+            the timestamps are sorted from latest to newest
+        """
         channel_id = self.get_channel_ids_json().get("CONFIG COUNTDOWN", None)
         if channel_id is None:
             channel = await self.create_channel_text()
@@ -57,25 +68,23 @@ class CountdownCog(Cog, name="Countdown"):
                 channel = await self.create_channel_text()
 
         message: Message
-        msgs: List[Message] = []
+        messages: List[Message] = []
         async for message in channel.history(limit=None):
             if message.author == self.bot.user:
                 continue
-            msgs.append(message)
+            messages.append(message)
 
-        newest: Tuple[Optional[datetime], str] = (None, "...")
-        for message in msgs:
+        ret: List[Tuple[datetime, str]] = []
+        for message in messages:
             try:
                 name, stamp = message.content.splitlines(keepends=False)
                 stamp = datetime.fromisoformat(stamp)
             except ValueError:
                 pass
             else:
-                if newest[0] is None:
-                    newest = (stamp, name)
-                elif newest[0] > stamp > datetime.utcnow():
-                    newest = (stamp, name)
-        return newest if newest[0] is not None else (datetime.utcnow(), "...")
+                ret.append((stamp, name))
+        ret.sort(key=lambda t: t[0])
+        return ret
 
     @staticmethod
     def convert_stamp(stamp: datetime) -> str:
