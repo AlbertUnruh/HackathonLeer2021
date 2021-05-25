@@ -12,7 +12,7 @@ class ContributorCog(Cog, name="Contributor"):
     def __init__(self, bot: Bot):
         self.bot = bot
 
-    @command(name="contributor", aliases=["mitwirkende"])
+    @command(name="contributor", aliases=["contributors", "mitwirkende"])
     async def contributors(self, ctx: Context):
         """displays the contributor"""
         embed: Embed = Embed(title="Unsere Mitwirkenden",
