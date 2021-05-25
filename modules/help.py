@@ -27,30 +27,37 @@ Du brauchst Hilfe? Dann wähle eine Suchmaschine aus:
 > -ecosia
 > -bing""")
 
-        embed.add_field(name="Teams", value="""\
+        embed.add_field(name="Anmelden", value="""\
+Um dich anzumelden schreibe dem Bot im Privatchat:
+> anmelden "E-Mail" "Name"
+> "Schule" "Klasse"
+> "Teamname" """)
+
+        embed.add_field(name="Mitwirkende", value="""\
+Du willst wissen wer bei diesem Bot Mist gebaut hat? So kriegst du die Namen für die Beschwerde raus:
+> contributors""")
+
+        embed.add_field(name="Team erstellen", value="""\
 So erstellst du ein neues Team:
-> make_team Teamname
-> (Der Teamname darf auch Leerzeichen enthalten)
+> make_team
+> Teamname
+> (Der Teamname darf auch
+> Leerzeichen enthalten""")
 
-So löscht du ein Team:
-> remove_team Teamname
-
-Wenn es dein Team schon gibt kannst du so joinen:
-> join_team Teamname
-
+        embed.add_field(name="Team verlassen", value="""\
 Dein Team nervt? Dann verlasse dein Team einfach:
 > exit_team Teamname""")
 
-        embed.add_field(name="Anmelden", value="""\
-Um dich anzumelden schreibe dem Bot im Privatchat:
-> anmelden "E-Mail" "Name" "Schule" "Klasse" "Teamname" """)
+        embed.add_field(name="Team löschen", value="""\
+So löscht du ein Team:
+> remove_team Teamname""")
+
+        embed.add_field(name="Team joinen", value="""\
+Wenn es dein Team schon gibt kannst du so joinen:
+> join_team Teamname""")
 
         embed.add_field(name="Latenz", value="""\
 Hier sind die Latenzen zusehen:
 > :ping_pong:""")
-
-        embed.add_field(name="Mitwirkende", value="""\
-Du willst wissen wer bei diesem Bot Mist gebaut hat? So kriegst du die Namen für die Beschwerde raus:
-> contributer""")
 
         await ctx.channel.send(embed=embed)
