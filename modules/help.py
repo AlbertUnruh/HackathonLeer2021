@@ -43,7 +43,7 @@ Dein Team nervt? Dann verlasse dein Team einfach:
 
         embed.add_field(name="Anmelden", value="""\
 Um dich anzumelden schreibe dem Bot im Privatchat:
-> anmelden "E-Mail" "Name" "Schule" "Klasse" "Teamname" """, inline=False)
+> anmelden "E-Mail" "Name" "Schule" "Klasse" "Teamname" """)
 
         embed.add_field(name="Latenz", value="""\
 Hier sind die Latenzen zusehen:
