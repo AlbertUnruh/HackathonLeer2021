@@ -1,15 +1,20 @@
 """this is to check in new users"""
 from discord.ext.commands import Bot, Cog, command, Context, CommandError
-from discord import Embed, Reaction, User, DMChannel
+from discord import Embed, Reaction, Role, Member, User, DMChannel
+from discord.utils import get
 from contributor import AlbertUnruh
 from re import compile
-from database import User as DbUser
+from database import DbUser as DbUser
 from colorama import Fore as Fg, Style
+from CONFIGS import PREFIX
+
+from .role import Ext
 
 
 VALID_CHARS = compile(r"[a-zA-Z0-9_.+\- @äöü]")
 VALID_MAIL = compile(r"(^[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
-TITLE = "__**Anmeldung\u200B:**__"
+TITLE_NEW = "__**Anmeldung\u200B:**__"
+TITLE_DEL = "__**Datenlöschung\u200B:**__"
 YES, NO = "✅", "❌"
 
 EMAIL = "E-Mail"
@@ -47,6 +52,12 @@ class CheckinCog(Cog, name="Checkin"):
                        school: str, cl4ss: str, team: str):
         """checks a new user in"""
 
+        if DbUser.get_users(id=ctx.author.id):
+            await ctx.send(f"**Hey, du bist schon angemeldet, bitte mache `"
+                           f"{PREFIX}abmelden` um dich danach mit neuen "
+                           f"Daten anmelden zu können!**")
+            return
+
         # if the message wasn't send on in the direct/private chat
         if ctx.guild is not None:
             await ctx.message.delete()
@@ -59,7 +70,7 @@ class CheckinCog(Cog, name="Checkin"):
             await ctx.send("Bitte gebe eine gültige E-Mail an!")
             return
 
-        embed: Embed = Embed(title=TITLE, description=f"""\
+        embed: Embed = Embed(title=TITLE_NEW, description=f"""\
 Bitte gehe sicher, dass alle Angaben korrekt sind.
 _Wenn die stimmen, drücke _\\{YES}_, ansonsten _\\{NO}_._
 """)
@@ -74,6 +85,23 @@ _Wenn die stimmen, drücke _\\{YES}_, ansonsten _\\{NO}_._
         await msg.add_reaction(NO)
 
     check_in.on_error = check_in_error
+
+    @command(name="abmelden", aliases=["abmeldung"])
+    async def check_out(self, ctx: Context):
+        """checks a user out"""
+
+        if not DbUser.get_users(id=ctx.author.id):
+            await ctx.send(f"**Hey, du bist nicht angemeldet, bitte mache `"
+                           f"{PREFIX}anmelden` um dich anzumelden!**")
+            return
+
+        embed: Embed = Embed(title=TITLE_DEL, description=f"""\
+Bitte bestätige mit \\{YES}, dass du dich abmelden möchtest.
+**WARNUNG: DIESE AKTION KANN NICHT RÜCKGÄNGIG GEMACHT WERDEN!**
+""")
+
+        msg = await ctx.author.send(embed=embed)
+        await msg.add_reaction(YES)
 
     @Cog.listener("on_reaction_add")
     async def validates(self, reaction: Reaction, user: User):
@@ -102,22 +130,45 @@ _Wenn die stimmen, drücke _\\{YES}_, ansonsten _\\{NO}_._
 
         embed: Embed = reaction.message.embeds[0]
 
-        # if the title is invalid
-        if embed.title != TITLE:
+        if embed.title == TITLE_NEW:
+            attrs = {}
+            for field in embed.fields:
+                attrs[field.name] = field.value
+
+            user_data = {
+                "id": user.id,
+                "user": user.name,
+                "mail": attrs.get(EMAIL),
+                "name": attrs.get(NAME),
+                "school": attrs.get(SCHOOL),
+                "cl4ss": attrs.get(CLASS),
+                "team": attrs.get(TEAM)
+            }
+            DbUser.new_user(**user_data)
+            print(Fg.MAGENTA+f"Added new user to the DB! {user_data}"+Style.RESET_ALL)
+
+            member: Member = self.bot.guilds[0].get_member(user.id)
+
+            role: Role = await Ext.create_team(self.bot, user_data["team"], member)
+            await member.add_roles(role)
+            await user.send(f"Du wurdest dem Team `{user_data['team']}` hinzugefügt!")
+
+            await reaction.message.delete()
             return
 
-        attrs = {}
-        for field in embed.fields:
-            attrs[field.name] = field.value
+        if embed.title == TITLE_DEL:
+            users = DbUser.get_users(id=user.id)
+            if not len(users):
+                return
+            user_ = users[0]
 
-        user_data = {
-            "id": user.id,
-            "user": user.name,
-            "mail": attrs.get(EMAIL),
-            "name": attrs.get(NAME),
-            "school": attrs.get(SCHOOL),
-            "cl4ss": attrs.get(CLASS),
-            "team": attrs.get(TEAM)
-        }
-        DbUser.new_user(**user_data)
-        print(Fg.MAGENTA+f"Added new user to the DB! {user_data}"+Style.RESET_ALL)
+            DbUser.delete_user(id=user.id)
+            print(Fg.MAGENTA+f"Removed user {user} from the DB!"+Style.RESET_ALL)
+
+            role: Role = get(self.bot.guilds[0].roles, name=user_[6])
+            await self.bot.guilds[0].get_member(user.id).remove_roles(role)
+            await user.send("Du hast dich soeben abgemeldet.\n"
+                            "Ich wünsche dir noch einen schönen Tag oder Abend oder was auch immer \\:)")
+
+            await reaction.message.delete()
+            return

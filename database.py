@@ -6,7 +6,7 @@ from contributor import AlbertUnruh
 
 __all__ = (
     "DataBase",
-    "User",
+    "DbUser",
 )
 
 TABLE_USER = "user"
@@ -62,7 +62,7 @@ SELECT * FROM {table}
         self.close()
 
 
-class User:
+class DbUser:
     """is a special class for the User from the DataBase"""
 
     contributor = [AlbertUnruh]
@@ -84,6 +84,16 @@ INSERT INTO {TABLE_USER!r} VALUES (
     {cl4ss!r},
     {team!r}
 );
+""")
+
+    # for PyCharm
+    # noinspection PyShadowingBuiltins
+    @staticmethod
+    def delete_user(*, id: int):
+        """removes a User from the DataBase"""
+        with DataBase() as db:
+            db.execute(f"""\
+DELETE FROM {TABLE_USER!r} WHERE id=={id!r};
 """)
 
     @staticmethod

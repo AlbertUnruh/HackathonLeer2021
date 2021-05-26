@@ -2,7 +2,7 @@ from quart import Quart, render_template, request, session, redirect, url_for
 from quart_discord import DiscordOAuth2Session
 from discord.ext import ipc
 import WEBCONFIG
-from database import User
+from database import DbUser
 ### from datenbank-utils import sqlite-kram
 app = Quart(__name__, template_folder="templates", )
 ipc_client = ipc.Client(secret_key=WEBCONFIG.SECRET_KEY)
@@ -38,7 +38,7 @@ async def dashboard():
 
 @app.route("/api/anmeldungen/")
 async def api_anmeldungen():
-    return User.get_all_users()
+    return DbUser.get_all_users()
 
 @app.route("/api/termine/")
 async def api_termine():
