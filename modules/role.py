@@ -7,6 +7,8 @@ from contributor import MikeCodes2586, AlbertUnruh
 from CONFIGS import PREFIX
 from database import DbUser
 from re import compile
+from random import randint
+from typing import Callable
 
 
 __all__ = (
@@ -16,6 +18,7 @@ __all__ = (
 
 
 VALID_CHARS = compile(r"[a-zA-Z0-9_.+\- @äöü]")
+get_color: Callable[[], int] = lambda: randint(0x000000, 0xFFFFFF)
 
 
 class Ext:
@@ -30,7 +33,8 @@ class Ext:
         if team_role is not None:
             return team_role
 
-        team_role: Role = await bot.guilds[0].create_role(name=team)
+        team_role: Role = await bot.guilds[0].create_role(name=team,
+                                                          color=get_color())
 
         await bot.guilds[0].get_member(author.id).add_roles(team_role)
 
@@ -54,11 +58,11 @@ class Ext:
                 "view_channel": True
             })
         }
-        await bot.guilds[0].create_text_channel(name="Text Channel",
+        await bot.guilds[0].create_text_channel(name="Team Chat",
                                                 overwrites=t_cha_overwrites,
                                                 category=team_category)
 
-        await bot.guilds[0].create_voice_channel(name="Voice Channel",
+        await bot.guilds[0].create_voice_channel(name="Team Talk",
                                                  overwrites=t_cha_overwrites,
                                                  category=team_category)
 
