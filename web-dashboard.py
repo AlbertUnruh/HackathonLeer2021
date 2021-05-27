@@ -22,22 +22,28 @@ discord = DiscordOAuth2Session(app)
 
 @app.route("/")
 async def home():
-    users = User.get_all_users()
-    await render_template("index.html", user = users)
+    termins = await CountdownCog().get_timestamps()
+    await render_template("index.html", termins = termins)
 
 @app.route("/login/")
 async def login():
     return await discord.create_session()
+
+@app.route("/callback/")
+async def callback():
+    try:
+        return discord.callback()
+    except:
+        return(url_for("login"))
 
 @app.route("/dashboard/")
 async def dashboard():
     authorized = await discord.authorized
     if authorized is not True:
         return redirect(url_for("login"))
-    termins = await CountdownCog().get_timestamps()
     user = await discord.fetch_user()
     user_name = ipc_client.request("get_display_name_by_id", user_id=user["user_id"])
-    #anmeldungs_formular = sqlite utils get_anmeldungen()
-    return render_template("dashboard.html", termins = termins )
+    users = User.get_all_users()
+    return render_template("dashboard.html", users = users)
 
 app.run(host = 1234, port = 1234)
