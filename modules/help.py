@@ -20,7 +20,7 @@ class HelpCog(Cog, name="Help"):
 
         embed.add_field(name="Suche", value="""\
 Du brauchst Hilfe? Dann wähle eine Suchmaschine aus:
-> `browse`, `search`, `s`, `duckduckgo`, `ddg`, `github`, `gh`, `google`, `g`, `stackoverflow `sof`, `ecosia`, `bing`""")
+> `browse`, `search`, `s`, `duckduckgo`, `ddg`, `github`, `gh`, `google`, `g`, `stackoverflow`, `sof`, `ecosia`, `bing`""")
 
         embed.add_field(name="Anmelden", value="""\
 Du willst beim Hackathon teilnehmen oder? Dann schreibe dem Bot im Privatchat:
