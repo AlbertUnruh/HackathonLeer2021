@@ -28,7 +28,7 @@ Du brauchst Hilfe? Dann wähle eine Suchmaschine aus:
 > -bing""")
 
         embed.add_field(name="Anmelden", value="""\
-Um dich anzumelden schreibe dem Bot im Privatchat:
+Du willst beim Hackathon teilnehmen oder? Dann schreibe dem Bot im Privatchat:
 > anmelden "E-Mail" "Name"
 > "Schule" "Klasse"
 > "Teamname" """)
@@ -36,13 +36,6 @@ Um dich anzumelden schreibe dem Bot im Privatchat:
         embed.add_field(name="Mitwirkende", value="""\
 Du willst wissen wer bei diesem Bot Mist gebaut hat? So kriegst du die Namen für die Beschwerde raus:
 > contributors""")
-
-        embed.add_field(name="Team erstellen", value="""\
-So erstellst du ein neues Team:
-> make_team
-> Teamname
-> (Der Teamname darf auch
-> Leerzeichen enthalten""")
 
         embed.add_field(name="Team checken", value="""\
 Wenn du dir nicht sicher bist, ob dein Team schon existiert, guck einfach nach:
@@ -52,17 +45,13 @@ Wenn du dir nicht sicher bist, ob dein Team schon existiert, guck einfach nach:
 Du hast es dir doch anders überlegt? So kannst du dich wieder vom Hackathon abmelden:
 > abmelden""")
 
-        embed.add_field(name="Team verlassen", value="""\
-Dein Team nervt? Dann verlasse dein Team einfach:
-> exit_team Teamname""")
-
         embed.add_field(name="Team löschen", value="""\
 So löscht du ein Team:
 > remove_team Teamname""")
 
-        embed.add_field(name="Team joinen", value="""\
-Wenn es dein Team schon gibt kannst du so joinen:
-> join_team Teamname""")
+        embed.add_field(name="Livestream", value="""\
+Du hast kein Bock den Livestream rauszusuchen? Lass den Bot das für dich tun:
+> live""")
 
         embed.add_field(name="Latenz", value="""\
 Hier sind die Latenzen zusehen:
