@@ -6,7 +6,7 @@ from contributor import AlbertUnruh
 from re import compile
 from database import DbUser as DbUser
 from colorama import Fore as Fg, Style
-from CONFIGS import PREFIX
+from CONFIGS import PREFIX, BLACKLISTED_ROLES, BLACKLISTED_MSG
 
 from .role import Ext
 
@@ -70,6 +70,11 @@ class CheckinCog(Cog, name="Checkin"):
             await ctx.send("Bitte gebe eine gültige E-Mail an!")
             return
 
+        # if the role is blacklisted
+        if escape_input(team).replace("@", "") in BLACKLISTED_ROLES:
+            await ctx.send(BLACKLISTED_MSG.format(role=team))
+            return
+
         embed: Embed = Embed(title=TITLE_NEW, description=f"""\
 Bitte gehe sicher, dass alle Angaben korrekt sind.
 _Wenn die stimmen, drücke _\\{YES}_, ansonsten _\\{NO}_._
@@ -78,7 +83,7 @@ _Wenn die stimmen, drücke _\\{YES}_, ansonsten _\\{NO}_._
         embed.add_field(name=NAME, value=escape_input(name))
         embed.add_field(name=SCHOOL, value=escape_input(school))
         embed.add_field(name=CLASS, value=escape_input(cl4ss))
-        embed.add_field(name=TEAM, value=escape_input(team))
+        embed.add_field(name=TEAM, value=escape_input(team).replace("@", ""))
 
         msg = await ctx.send(embed=embed)
         await msg.add_reaction(YES)
@@ -169,6 +174,10 @@ Bitte bestätige mit \\{YES}, dass du dich abmelden möchtest.
             await self.bot.guilds[0].get_member(user.id).remove_roles(role)
             await user.send("Du hast dich soeben abgemeldet.\n"
                             "Ich wünsche dir noch einen schönen Tag oder Abend oder was auch immer \\:)")
+
+            if not DbUser.get_users(team=role.name):
+                await Ext.delete_team(self.bot, get(self.bot.guilds[0].categories, name=role.name))
+                await user.send("Das Team wurde automatisch gelöscht, da es keine Mitglieder mehr hatte!")
 
             await reaction.message.delete()
             return
