@@ -1,63 +1,31 @@
-from quart import Quart, render_template, request, session, redirect, url_for
-from quart_discord import DiscordOAuth2Session
-from discord.ext.commands import Bot
-from discord.ext import ipc
+from quart import Quart, render_template, request, session, redirect, url_for, 
 import WEBCONFIG
-from database import DbUser
+from database import User
 from modules.countdown import CountdownCog
 from contributor import RedstoneCraft
-from typing import Optional
 
 contributor = [RedstoneCraft]
 ### from datenbank-utils import sqlite-kram
-app = Quart(__name__)
-ipc_client = ipc.Client(secret_key=WEBCONFIG.SECRET_KEY)
-
-app.config["DISCORD_CLIENT_ID"] = WEBCONFIG.DISCORD_CLIENT_ID
-app.config["DISCORD_CLIENT_SECRET"] = WEBCONFIG.DISCORD_CLIENT_SECRET
-app.config["DISCORD_BOT_TOKEN"] = WEBCONFIG.DISCORD_BOT_TOKEN
-app.config["DISCORD_REDIRECT_URI"] = WEBCONFIG.DISCORD_CLIENT_ID
-
-discord = None# DiscordOAuth2Session(app)
-
-bot: Optional[Bot] = None
-
-
-async def run(bot_: Bot = None, host: str = "0.0.0.0", port: int = 8080):
-    """runs the dashboard"""
-    global bot
-    bot = bot_
-    app.run(host, port)
-
+app = Quart(__name__, template_folder="templates")
 
 #################### DASHBOARD ####################
 
 @app.route("/")
 async def home():
-    termins = await CountdownCog(bot).get_timestamps()
-    await render_template("index.html", termins=termins)
-
+    users = User.get_all_users()
+    await render_template("index.html", user = users)
 
 @app.route("/login/")
 async def login():
-    return await discord.create_session()
-
-
-@app.route("/callback/")
-async def callback():
-    try:
-        return discord.callback()
-    except:
-        return url_for("login")
-
+    return render_template("login.html")
 
 @app.route("/dashboard/")
 async def dashboard():
-    authorized = await discord.authorized
-    if authorized is not True:
-        return redirect(url_for("login"))
-    user = await discord.fetch_user()
-    user_name = ipc_client.request("get_display_name_by_id",
-                                   user_id=user.id)
-    users = DbUser.get_all_users()
-    return render_template("dashboard.html", users=users)
+    if request.method == "POST":
+        form = request.form
+        if WEBCONFIG.PASSWORD != form["password"]:
+            return(url_for("login"))
+        else:
+            return render_template("dashboard.html")
+
+app.run(host = 1234, port = 1234)
