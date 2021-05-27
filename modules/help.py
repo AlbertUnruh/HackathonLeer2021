@@ -16,7 +16,8 @@ class HelpCog(Cog, name="Help"):
     async def helpcommand(self, ctx: Context):
         """displays the help"""
         embed: Embed = Embed(color=0x5865F2, title="Hilfe",
-                             description=f"Mein Präfix ist `{CONFIGS.PREFIX}`")
+                             description=f"Mein Präfix ist `{CONFIGS.PREFIX}`\n"
+                                         f"_Notiz: die Befehle beinhalten __keinen__ Zeilenumbruch_")
 
         embed.add_field(name="Suche", value="""\
 Du brauchst Hilfe? Dann wähle eine Suchmaschine aus:
@@ -24,31 +25,31 @@ Du brauchst Hilfe? Dann wähle eine Suchmaschine aus:
 
         embed.add_field(name="Anmelden", value="""\
 Du willst beim Hackathon teilnehmen oder? Dann schreibe dem Bot im Privatchat:
-> anmelden "E-Mail" "Name" "Schule" "Klasse" "Teamname\"""")
+> `anmelden "E-Mail" "Name" "Schule" "Klasse" "Teamname"`""")
 
         embed.add_field(name="Mitwirkende", value="""\
 Du willst wissen wer bei diesem Bot Mist gebaut hat? So kriegst du die Namen für die Beschwerde raus:
-> contributors""")
+> `contributors`""")
 
         embed.add_field(name="Team checken", value="""\
 Wenn du dir nicht sicher bist, ob dein Team schon existiert, guck einfach nach:
-> check_team TEAMNAME""")
+> `check_team TEAMNAME`""")
 
         embed.add_field(name="Abmelden", value="""\
 Du hast es dir doch anders überlegt? So kannst du dich wieder vom Hackathon abmelden:
-> abmelden""")
+> `abmelden`""")
 
         if self.bot.guilds[0].get_member(ctx.author.id).guild_permissions.manage_roles:
             embed.add_field(name="Team löschen", value="""\
 So löscht du ein Team:
-> remove_team TEAMNAME""")
+> `remove_team TEAMNAME`""")
 
         embed.add_field(name="Livestream", value="""\
 Du hast kein Bock den Livestream rauszusuchen? Lass den Bot das für dich tun:
-> live""")
+> `live`""")
 
         embed.add_field(name="Latenz", value="""\
 Hier sind die Latenzen zusehen:
-> :ping_pong:""")
+> `ping`, `pong`""")
 
         await ctx.channel.send(embed=embed)
