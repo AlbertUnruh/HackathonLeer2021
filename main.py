@@ -11,7 +11,7 @@ from CONFIGS import TOKEN, PREFIX
 from contributor import print_contributor
 
 from threading import Thread
-from asyncio.runners import run as arun
+from asyncio import run_coroutine_threadsafe, get_event_loop
 from web_dashboard import run
 
 
@@ -21,12 +21,7 @@ intents = Intents.all()
 bot = Bot(PREFIX, None, intents=intents, case_insensitive=True)
 register_commands(bot)
 
-dashboard = Thread(target=arun(run), daemon=True, kwargs={
-    "bot_": bot,
-    "host": "0.0.0.0",
-    "port": 8080
-})
-dashboard.start()
+run_coroutine_threadsafe(run(bot), get_event_loop())
 
 print_contributor(bot)
 bot.run(TOKEN)

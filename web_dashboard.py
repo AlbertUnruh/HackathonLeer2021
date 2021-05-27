@@ -18,7 +18,7 @@ app.config["DISCORD_CLIENT_SECRET"] = WEBCONFIG.DISCORD_CLIENT_SECRET
 app.config["DISCORD_BOT_TOKEN"] = WEBCONFIG.DISCORD_BOT_TOKEN
 app.config["DISCORD_REDIRECT_URI"] = WEBCONFIG.DISCORD_CLIENT_ID
 
-discord = DiscordOAuth2Session(app)
+discord = None# DiscordOAuth2Session(app)
 
 bot: Optional[Bot] = None
 
