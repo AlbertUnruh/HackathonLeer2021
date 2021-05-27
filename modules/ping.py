@@ -26,7 +26,7 @@ class PingCog(Cog, name="Ping"):
         embed.add_field(name="API", value=self.api())
         embed.add_field(name="Nachricht", value=self.time(ctx.message.created_at))
 
-        embed.set_footer(text="Die Latenz von `Nachricht` kann negativ sein, wenn die Systemuhr nicht mit der Zeit von Discord übereinstimmt.")
+        embed.set_footer(text="Die Latenz von `Nachricht` kann abweichen, wenn die Systemuhr nicht mit der Zeit von Discord übereinstimmt.")
 
         await ctx.send(embed=embed)
 
