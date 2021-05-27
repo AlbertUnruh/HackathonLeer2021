@@ -1,5 +1,6 @@
 """contains the Cog for internet research"""
 from discord.ext.commands import Bot, Cog, command, Context
+from discord import Embed
 from urllib.parse import quote
 from contributor import AlbertUnruh
 
@@ -67,8 +68,8 @@ class BrowserCog(Cog, name="Browser"):
     @command(name="live", aliases=[])
     async def live(self, ctx: Context):
         """displays the live-streaming-channels"""
-        await ctx.send(f"Hier ist der Link zu "
-                       f"[YouTube]({URL_LIVE_Y} {URL_LIVE_Y}) "
-                       f"und zu "
-                       f"[Twitch]({URL_LIVE_T} {URL_LIVE_T}),\n"
-                       f"viel spaß beim Zuschauen!")
+        await ctx.send(embed=Embed(description=f"Hier ist der Link zu "
+                                               f"[YouTube]({URL_LIVE_Y} \"{URL_LIVE_Y}\") "
+                                               f"und zu "
+                                               f"[Twitch]({URL_LIVE_T} \"{URL_LIVE_T}\").\n"
+                                               f"Viel spaß beim Zuschauen!"))
