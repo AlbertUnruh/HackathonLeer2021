@@ -16,10 +16,12 @@ URL_SOF:    str = "https://stackoverflow.com/search?q={query}"
 URL_G:      str = "https://www.google.com/search?q={query}"
 URL_ECOSIA: str = "https://www.ecosia.org/search?q={query}"
 URL_BING:   str = "https://www.bing.com/search?q={query}"
+URL_LIVE_Y: str = "https://www.youtube.com/channel/UCkeTyOUOKObW1pNlfptzC2A"
+URL_LIVE_T: str = "https://www.twitch.tv/hackathonleer"
 
 
 class BrowserCog(Cog, name="Browser"):
-    """is a Cog for the Presence from the Bot"""
+    """is a Cog for the Browser function from the Bot"""
 
     contributor = [AlbertUnruh]
 
@@ -61,3 +63,12 @@ class BrowserCog(Cog, name="Browser"):
         """is the Bing search"""
         query = quote(" ".join(query)) or DEFAULT_SEARCH
         await ctx.send(MSG.format(url=URL_BING.format(query=query)))
+
+    @command(name="live", aliases=[])
+    async def live(self, ctx: Context):
+        """displays the live-streaming-channels"""
+        await ctx.send(f"Hier ist der Link zu "
+                       f"[YouTube]({URL_LIVE_Y} {URL_LIVE_Y}) "
+                       f"und zu "
+                       f"[Twitch]({URL_LIVE_T} {URL_LIVE_T}),\n"
+                       f"viel spaß beim Zuschauen!")
