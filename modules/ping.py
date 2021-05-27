@@ -19,7 +19,7 @@ class PingCog(Cog, name="Ping"):
     @command(name="ping", aliases=["pong", "latency", ":ping_pong:", "🏓"])
     async def ping(self, ctx: Context):
         """checks the ping"""
-        embed: Embed = Embed(title="🏓 Pong",
+        embed: Embed = Embed(title=f"🏓 {'Ping' if ctx.invoked_with.lower() == 'pong' else 'Pong'}",
                              description="Hier sind die Latenzen aufgelistet:",
                              timestamp=datetime.utcnow())
 
