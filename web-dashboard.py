@@ -29,6 +29,13 @@ async def home():
 async def login():
     return await discord.create_session()
 
+@app.route("/callback/")
+async def callback():
+    try:
+        return discord.callback()
+    except:
+        return(url_for("login"))
+
 @app.route("/dashboard/")
 async def dashboard():
     authorized = await discord.authorized
