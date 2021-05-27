@@ -10,7 +10,7 @@ from typing import Optional
 
 contributor = [RedstoneCraft]
 ### from datenbank-utils import sqlite-kram
-app = Quart(__name__, template_folder="templates")
+app = Quart(__name__)
 ipc_client = ipc.Client(secret_key=WEBCONFIG.SECRET_KEY)
 
 app.config["DISCORD_CLIENT_ID"] = WEBCONFIG.DISCORD_CLIENT_ID
@@ -23,7 +23,7 @@ discord = DiscordOAuth2Session(app)
 bot: Optional[Bot] = None
 
 
-def run(bot_: Bot = None, host: str = "0.0.0.0", port: int = 8080):
+async def run(bot_: Bot = None, host: str = "0.0.0.0", port: int = 8080):
     """runs the dashboard"""
     global bot
     bot = bot_
