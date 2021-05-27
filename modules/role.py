@@ -130,7 +130,7 @@ class RoleCog(Cog, name="RoleManager"):
             return
         '''
 
-        if not self.bot.guilds[0].get_member(ctx.author.id).guild_permissions.manage_roles:
+        if not ctx.guild.get_member(ctx.author.id).guild_permissions.manage_roles:
             await ctx.channel.send("Du hast nicht genug perms!")
             return
 
@@ -160,7 +160,7 @@ class RoleCog(Cog, name="RoleManager"):
             return
 
         # ctx.author can also be a User...
-        await self.bot.guilds[0].get_member(ctx.author.id).add_roles(role)
+        await ctx.guild.get_member(ctx.author.id).add_roles(role)
 
         await ctx.channel.send("Es hat funtioniert!")
 
@@ -177,7 +177,7 @@ class RoleCog(Cog, name="RoleManager"):
             return
 
         # ctx.author can also be a User...
-        await self.bot.guilds[0].get_member(ctx.author.id).remove_roles(role)
+        await ctx.guild.get_member(ctx.author.id).remove_roles(role)
 
         await ctx.channel.send("Es hat funtioniert!")
     '''
