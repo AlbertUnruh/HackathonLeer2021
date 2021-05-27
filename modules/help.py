@@ -31,7 +31,8 @@ Du willst beim Hackathon teilnehmen oder? Dann schreibe dem Bot im Privatchat:
 Du willst wissen wer bei diesem Bot Mist gebaut hat? So kriegst du die Namen für die Beschwerde raus:
 > `contributors`""")
 
-        embed.add_field(name="Team checken", value="""\
+        if self.bot.guilds[0].get_member(ctx.author.id).guild_permissions.manage_roles:
+            embed.add_field(name="Team checken", value="""\
 Wenn du dir nicht sicher bist, ob dein Team schon existiert, guck einfach nach:
 > `check_team TEAMNAME`""")
 
