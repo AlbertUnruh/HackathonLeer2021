@@ -8,8 +8,11 @@
 
 ## Infos:
 - `TOKEN` in `CONFIGS.py` is stored by default in the environ variable `DISCORD_BOT_TOKEN` or in the file `./TOKEN`
-- ...
+- you can find the latest version [here](https://github.com/AlbertUnruh/HackathonLeer2021 "github.com/AlbertUnruh/HackathonLeer2021")
 
+
+Internal
+====
 
 ## Convention:
 - the Cogs in `./modules/` must be named like the file (the first character in uppercase!) + "Cog" to work
