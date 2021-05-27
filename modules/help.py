@@ -44,6 +44,14 @@ So erstellst du ein neues Team:
 > (Der Teamname darf auch
 > Leerzeichen enthalten""")
 
+        embed.add_field(name="Team checken", value="""\
+Wenn du dir nicht sicher bist, ob dein Team schon existiert, guck einfach nach:
+> check_team Teamname""")
+
+        embed.add_field(name="Abmelden", value="""\
+Du hast es dir doch anders überlegt? So kannst du dich wieder vom Hackathon abmelden:
+> abmelden""")
+
         embed.add_field(name="Team verlassen", value="""\
 Dein Team nervt? Dann verlasse dein Team einfach:
 > exit_team Teamname""")
