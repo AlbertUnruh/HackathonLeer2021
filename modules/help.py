@@ -20,18 +20,11 @@ class HelpCog(Cog, name="Help"):
 
         embed.add_field(name="Suche", value="""\
 Du brauchst Hilfe? Dann wähle eine Suchmaschine aus:
-> -ddg | duckduckgo | browse | search | s
-> -gh | github
-> -g | google
-> -sof | stackoverflow
-> -ecosia
-> -bing""")
+> `browse`, `search`, `s`, `duckduckgo`, `ddg`, `github`, `gh`, `google`, `g`, `stackoverflow `sof`, `ecosia`, `bing`""")
 
         embed.add_field(name="Anmelden", value="""\
 Du willst beim Hackathon teilnehmen oder? Dann schreibe dem Bot im Privatchat:
-> anmelden "E-Mail" "Name"
-> "Schule" "Klasse"
-> "Teamname" """)
+> anmelden "E-Mail" "Name" "Schule" "Klasse" "Teamname\"""")
 
         embed.add_field(name="Mitwirkende", value="""\
 Du willst wissen wer bei diesem Bot Mist gebaut hat? So kriegst du die Namen für die Beschwerde raus:
@@ -39,15 +32,16 @@ Du willst wissen wer bei diesem Bot Mist gebaut hat? So kriegst du die Namen fü
 
         embed.add_field(name="Team checken", value="""\
 Wenn du dir nicht sicher bist, ob dein Team schon existiert, guck einfach nach:
-> check_team Teamname""")
+> check_team TEAMNAME""")
 
         embed.add_field(name="Abmelden", value="""\
 Du hast es dir doch anders überlegt? So kannst du dich wieder vom Hackathon abmelden:
 > abmelden""")
 
-        embed.add_field(name="Team löschen", value="""\
+        if self.bot.guilds[0].get_member(ctx.author.id).guild_permissions.manage_roles:
+            embed.add_field(name="Team löschen", value="""\
 So löscht du ein Team:
-> remove_team Teamname""")
+> remove_team TEAMNAME""")
 
         embed.add_field(name="Livestream", value="""\
 Du hast kein Bock den Livestream rauszusuchen? Lass den Bot das für dich tun:

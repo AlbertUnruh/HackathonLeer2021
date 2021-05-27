@@ -130,7 +130,7 @@ class RoleCog(Cog, name="RoleManager"):
             return
         '''
 
-        if not ctx.author.guild_permissions.manage_roles:
+        if not self.bot.guilds[0].get_member(ctx.author.id).guild_permissions.manage_roles:
             await ctx.channel.send("Du hast nicht genug perms!")
             return
 
