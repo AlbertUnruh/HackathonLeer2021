@@ -21,7 +21,6 @@
         <div>
             <h2 class="text-white center title">Anmeldungen:</h2>
             <div class="center table">
-                <h4>Lade Anmeldungen aus der Datenbank</h4>
                 <table>
                     <tr>
                         <th>User-Name</th>
@@ -30,17 +29,16 @@
                         <th>Schule & Jahrgang</th>
                         <th>Team</th>
                     </tr>
-                    <tr>
-                        <td>mustermann#11111</td>
-                        <td>Max Mustermann</td>
-                        <td>mustermann@mustermail</td>
-                        <td>MAx-Schule 7</td>
-                        <td>Max's</td>
-                    </tr>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user[1] }}</td>
+                            <td>{{ user[3] }}</td>
+                            <td>{{ user[2] }}</td>
+                            <td>{{ user[4] }} {{ user[5] }}</td>
+                            <td>{{ user[6] }}</td>  
+                        </tr>
+                    {% endfor %}
                 </table>
-            </div>
-            <div class="reload-button center">
-                <a onclick="loadDB();" class="center button-content">Anmeldungen neuladen!</a>
             </div>
         </div>
     </main>
